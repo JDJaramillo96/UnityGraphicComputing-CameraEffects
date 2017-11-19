@@ -4,6 +4,7 @@
 	{
 		_MainTex("Texture", 2D) = "white" {}
 		_TexelSize("Texel Size", Float) = 1
+		_Factor("Factor", Float) = 1
 		//Matrix values
 		_m00("m00", Float) = 0
 		_m01("m01", Float) = 0
@@ -50,6 +51,8 @@
 			sampler2D _MainTex;
 			float4 _MainTex_TexelSize;
 			float _TexelSize;
+			float _Factor;
+
 			//Matrix values
 			float _m00;
 			float _m01;
@@ -83,35 +86,35 @@
 				float3 finalColor;
 
 				/**/
-				float3 texel00 = tex2D(_MainTex, float2(uv.x - (2 * texelSize.x), uv.y - (2 * texelSize.y))) * _m00;
-				float3 texel10 = tex2D(_MainTex, float2(uv.x - (2 * texelSize.x), uv.y - texelSize.y)) * _m10;
-				float3 texel20 = tex2D(_MainTex, float2(uv.x - (2 * texelSize.x), uv.y)) * _m20;
-				float3 texel30 = tex2D(_MainTex, float2(uv.x - (2 * texelSize.x), uv.y + texelSize.y)) * _m30;
-				float3 texel40 = tex2D(_MainTex, float2(uv.x - (2 * texelSize.x), uv.y + (2 * texelSize.y))) * _m40;
+				float3 texel00 = tex2D(_MainTex, float2(uv.x - (2 * texelSize.x), uv.y - (2 * texelSize.y))) * _m00 * _Factor;
+				float3 texel10 = tex2D(_MainTex, float2(uv.x - (2 * texelSize.x), uv.y - texelSize.y)) * _m10 * _Factor;
+				float3 texel20 = tex2D(_MainTex, float2(uv.x - (2 * texelSize.x), uv.y)) * _m20 * _Factor;
+				float3 texel30 = tex2D(_MainTex, float2(uv.x - (2 * texelSize.x), uv.y + texelSize.y)) * _m30 * _Factor;
+				float3 texel40 = tex2D(_MainTex, float2(uv.x - (2 * texelSize.x), uv.y + (2 * texelSize.y))) * _m40 * _Factor;
 				/**/
-				float3 texel01 = tex2D(_MainTex, float2(uv.x - texelSize.x, uv.y - (2 * texelSize.y))) * _m01;
-				float3 texel11 = tex2D(_MainTex, float2(uv.x - texelSize.x, uv.y - texelSize.y)) * _m11;
-				float3 texel21 = tex2D(_MainTex, float2(uv.x - texelSize.x, uv.y)) * _m21;
-				float3 texel31 = tex2D(_MainTex, float2(uv.x - texelSize.x, uv.y + texelSize.y)) * _m31;
-				float3 texel41 = tex2D(_MainTex, float2(uv.x - texelSize.x, uv.y + (2 * texelSize.y))) * _m41;
+				float3 texel01 = tex2D(_MainTex, float2(uv.x - texelSize.x, uv.y - (2 * texelSize.y))) * _m01 * _Factor;
+				float3 texel11 = tex2D(_MainTex, float2(uv.x - texelSize.x, uv.y - texelSize.y)) * _m11 * _Factor;
+				float3 texel21 = tex2D(_MainTex, float2(uv.x - texelSize.x, uv.y)) * _m21 * _Factor;
+				float3 texel31 = tex2D(_MainTex, float2(uv.x - texelSize.x, uv.y + texelSize.y)) * _m31 * _Factor;
+				float3 texel41 = tex2D(_MainTex, float2(uv.x - texelSize.x, uv.y + (2 * texelSize.y))) * _m41 * _Factor;
 				/**/
-				float3 texel02 = tex2D(_MainTex, float2(uv.x, uv.y - (2 * texelSize.y))) * _m02;
-				float3 texel12 = tex2D(_MainTex, float2(uv.x, uv.y - texelSize.y)) * _m12;
-				float3 texel22 = tex2D(_MainTex, float2(uv.x, uv.y)) * _m22;
-				float3 texel32 = tex2D(_MainTex, float2(uv.x, uv.y + texelSize.y)) * _m32;
-				float3 texel42 = tex2D(_MainTex, float2(uv.x, uv.y + (2 * texelSize.y))) * _m42;
+				float3 texel02 = tex2D(_MainTex, float2(uv.x, uv.y - (2 * texelSize.y))) * _m02 * _Factor;
+				float3 texel12 = tex2D(_MainTex, float2(uv.x, uv.y - texelSize.y)) * _m12 * _Factor;
+				float3 texel22 = tex2D(_MainTex, float2(uv.x, uv.y)) * _m22 * _Factor;
+				float3 texel32 = tex2D(_MainTex, float2(uv.x, uv.y + texelSize.y)) * _m32 * _Factor;
+				float3 texel42 = tex2D(_MainTex, float2(uv.x, uv.y + (2 * texelSize.y))) * _m42 * _Factor;
 				/**/
-				float3 texel03 = tex2D(_MainTex, float2(uv.x + texelSize.x, uv.y - (2 * texelSize.y))) * _m03;
-				float3 texel13 = tex2D(_MainTex, float2(uv.x + texelSize.x, uv.y - texelSize.y)) * _m13;
-				float3 texel23 = tex2D(_MainTex, float2(uv.x + texelSize.x, uv.y)) * _m23;
-				float3 texel33 = tex2D(_MainTex, float2(uv.x + texelSize.x, uv.y + texelSize.y)) * _m33;
-				float3 texel43 = tex2D(_MainTex, float2(uv.x + texelSize.x, uv.y + (2 * texelSize.y))) * _m43;
+				float3 texel03 = tex2D(_MainTex, float2(uv.x + texelSize.x, uv.y - (2 * texelSize.y))) * _m03 * _Factor;
+				float3 texel13 = tex2D(_MainTex, float2(uv.x + texelSize.x, uv.y - texelSize.y)) * _m13 * _Factor;
+				float3 texel23 = tex2D(_MainTex, float2(uv.x + texelSize.x, uv.y)) * _m23 * _Factor;
+				float3 texel33 = tex2D(_MainTex, float2(uv.x + texelSize.x, uv.y + texelSize.y)) * _m33 * _Factor;
+				float3 texel43 = tex2D(_MainTex, float2(uv.x + texelSize.x, uv.y + (2 * texelSize.y))) * _m43 * _Factor;
 				/**/
-				float3 texel04 = tex2D(_MainTex, float2(uv.x + (2 * texelSize.x), uv.y - (2 * texelSize.y))) * _m04;
-				float3 texel14 = tex2D(_MainTex, float2(uv.x + (2 * texelSize.x), uv.y - texelSize.y)) * _m14;
-				float3 texel24 = tex2D(_MainTex, float2(uv.x + (2 * texelSize.x), uv.y)) * _m24;
-				float3 texel34 = tex2D(_MainTex, float2(uv.x + (2 * texelSize.x), uv.y + texelSize.y)) * _m34;
-				float3 texel44 = tex2D(_MainTex, float2(uv.x + (2 * texelSize.x), uv.y + (2 * texelSize.y))) * _m44;
+				float3 texel04 = tex2D(_MainTex, float2(uv.x + (2 * texelSize.x), uv.y - (2 * texelSize.y))) * _m04 * _Factor;
+				float3 texel14 = tex2D(_MainTex, float2(uv.x + (2 * texelSize.x), uv.y - texelSize.y)) * _m14 * _Factor;
+				float3 texel24 = tex2D(_MainTex, float2(uv.x + (2 * texelSize.x), uv.y)) * _m24 * _Factor;
+				float3 texel34 = tex2D(_MainTex, float2(uv.x + (2 * texelSize.x), uv.y + texelSize.y)) * _m34 * _Factor;
+				float3 texel44 = tex2D(_MainTex, float2(uv.x + (2 * texelSize.x), uv.y + (2 * texelSize.y))) * _m44  *_Factor;
 
 				finalColor =
 					texel00 + texel01 + texel02 + texel03 + texel04 +

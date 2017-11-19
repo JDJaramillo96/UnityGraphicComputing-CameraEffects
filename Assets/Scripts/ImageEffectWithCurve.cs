@@ -14,15 +14,18 @@ public class ImageEffectWithCurve : MonoBehaviour {
     private AnimationCurve curve;
     [SerializeField]
     private int kernelSize; //For 3x3 kernel => kernelSize = 3; For 5x5 kernel => kernelSize = 5; . . .
+    [SerializeField]
+    private float factor;
 
     //Kernel
     private float[,] kernel;
-    private float delta; //For 3x3 kernel => delta = 0.1666666667 (1/6); For 5x5 kernel => delta = 0.1 (1/10); . . .
+    private float step; //For 3x3 kernel => step = 0.1666666667 (1/6); For 5x5 kernel => step = 0.1 (1/10); . . .
     private float normalize;
 
     //Hidden
     private float lastTexelSize;
     private float lastCurve;
+    private float lastFactor;
 
     private Material mainMaterial;
     private Material MainMaterial
@@ -72,11 +75,16 @@ public class ImageEffectWithCurve : MonoBehaviour {
         if (lastCurve != curve.Evaluate(0.33f) + curve.Evaluate(0.66f) + curve.Evaluate(0.99f))
             EstimateKernel();
 
+        if (lastFactor != factor)
+            MainMaterial.SetFloat("_Factor", factor);
+
         Graphics.Blit(source, destination, MainMaterial);
 
         lastTexelSize = texelSize;
 
         lastCurve = curve.Evaluate(0.33f) + curve.Evaluate(0.66f) + curve.Evaluate(0.99f);
+
+        lastFactor = factor;
     }
 
     private void OnEnable()
@@ -98,17 +106,17 @@ public class ImageEffectWithCurve : MonoBehaviour {
     {
         kernel = new float[kernelSize, kernelSize];
 
-        delta = (1.0f / (float)(kernelSize * 2));
+        step = (1.0f / (kernelSize * 2.0f));
 
-        normalize = (1.0f / (float) kernel.Length);
+        normalize = (1.0f / kernel.Length);
 
         EstimateKernel();
     }
 
     private void EstimateKernel()
     {
-        float rowEvaluatePoint = 1 - delta;
-        float columnEvaluatePoint = delta;
+        float rowEvaluatePoint = 1 - step;
+        float columnEvaluatePoint = step;
 
         float rowEvaluateValue;
         float columnEvaluateValue;
@@ -139,15 +147,15 @@ public class ImageEffectWithCurve : MonoBehaviour {
                     column.ToString()),
                     kernelFinalValue);
 
-                columnEvaluatePoint += (2 * delta);
+                columnEvaluatePoint += (2 * step);
             }
 
-            columnEvaluatePoint = delta;
+            columnEvaluatePoint = step;
 
-            rowEvaluatePoint -= (2 * delta);
+            rowEvaluatePoint -= (2 * step);
         }
 
-        rowEvaluatePoint = 1 - delta;
+        rowEvaluatePoint = 1 - step;
     }
 
     #endregion

@@ -4,6 +4,7 @@
 	{
 		_MainTex("Texture", 2D) = "white" {}
 		_TexelSize("Texel Size", Float) = 1
+		_Factor("Factor", Float) = 1
 		//Matrix values
 		_m00("m00", Float) = 0
 		_m01("m01", Float) = 0
@@ -34,6 +35,7 @@
 			sampler2D _MainTex;
 			float4 _MainTex_TexelSize;
 			float _TexelSize;
+			float _Factor;
 			
 			//KERNEL!
 			float _m00;
@@ -79,9 +81,9 @@
 
 				//Kernel declaration
 				float3x3 kernel = float3x3(
-					_m00, _m01, _m02, //First row
-					_m10, _m11, _m12, //Second row
-					_m20, _m21, _m22 //Third row
+					_m00 * _Factor, _m01 * _Factor, _m02 * _Factor, //First row
+					_m10 * _Factor, _m11 * _Factor, _m12 * _Factor, //Second row
+					_m20 * _Factor, _m21 * _Factor, _m22 * _Factor //Third row
 				);
 
 				float4 finalImage;

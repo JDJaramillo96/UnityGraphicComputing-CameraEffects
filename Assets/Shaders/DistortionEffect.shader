@@ -60,13 +60,6 @@
 			{
 				float2 texelSize = _MainTex_TexelSize * _TexelSize;
 
-				//Kernel declaration
-				float3x3 kernel = float3x3(
-					0.0, 0.0, 0.0, //First row
-					0.0, 1.0, 0.0, //Second row
-					0.0, 0.0, 0.0 //Third row
-				);
-
 				//DISTORTION! ***
 				float2 originalUV = i.uv;
 
@@ -109,7 +102,7 @@
 
 				float4 finalImage;
 
-				finalImage.rgb = Convultion(newUV, texelSize, kernel);
+				finalImage.rgb = tex2D(_MainTex, newUV);
 
 				return float4(finalImage.rgb, 1);
 			}
